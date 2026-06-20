@@ -77,7 +77,7 @@ function Input({ className = "", ...props }: React.InputHTMLAttributes<HTMLInput
   return (
     <input
       {...props}
-      className={`w-full bg-muted rounded-xl px-4 py-3 text-sm text-foreground border border-border focus:outline-none focus:ring-2 focus:ring-primary/30 transition-shadow ${className}`}
+      className={`w-full rounded-2xl border border-border bg-white/95 px-4 py-3 text-sm text-foreground shadow-sm outline-none transition duration-200 placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-primary/20 ${className}`}
     />
   );
 }
@@ -93,11 +93,11 @@ function Label({ children }: { children: React.ReactNode }) {
 function Btn({
   children, variant = "primary", className = "", ...props
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: "primary" | "ghost" | "outline" }) {
-  const base = "inline-flex items-center justify-center gap-2 font-bold rounded-xl transition-all text-sm px-5 py-3 disabled:opacity-40";
+  const base = "inline-flex items-center justify-center gap-2 rounded-2xl border border-transparent px-5 py-3 text-sm font-semibold transition duration-200 ease-out disabled:cursor-not-allowed disabled:opacity-60";
   const variants = {
-    primary: "bg-primary hover:bg-blue-700 text-primary-foreground shadow-md shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-px",
-    ghost: "bg-muted hover:bg-accent text-foreground",
-    outline: "border-2 border-border bg-transparent hover:bg-muted text-foreground",
+    primary: "bg-primary text-primary-foreground shadow-lg shadow-primary/15 hover:bg-blue-600 active:scale-[0.98]",
+    ghost: "bg-white text-foreground shadow-sm hover:bg-muted",
+    outline: "bg-transparent text-foreground border-border hover:bg-muted",
   };
   return <button {...props} className={`${base} ${variants[variant]} ${className}`}>{children}</button>;
 }
@@ -167,47 +167,84 @@ function HomePage({ setPage }: { setPage: (p: Page) => void }) {
   return (
     <div className="pt-16">
       {/* Hero */}
-      <section className="relative min-h-[92vh] flex items-center bg-[#060E1F] overflow-hidden">
+      <section className="relative min-h-[92vh] overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(59,130,246,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,_rgba(14,165,233,0.14),transparent_26%)]" />
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1607860108855-64acf2078ed9?w=1600&h=900&fit=crop&auto=format"
             alt="Professional car detailing service"
-            className="w-full h-full object-cover opacity-25"
+            className="w-full h-full object-cover opacity-20"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#060E1F] via-[#060E1F]/75 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#060E1F]/60 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/75 to-slate-950/20" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-28">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 border border-blue-500/30 bg-blue-500/10 text-blue-300 text-xs font-bold px-4 py-2 rounded-full mb-6 uppercase tracking-widest">
-              <Zap className="w-3.5 h-3.5" /> Mobile Service — We Come to You
+          <div className="grid gap-14 lg:grid-cols-[1.05fr_0.95fr] items-center">
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/25 bg-blue-500/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.35em] text-blue-200 mb-6 shadow-sm shadow-slate-950/10">
+                <Zap className="w-3.5 h-3.5 text-blue-200" /> Mobile Service — We Come to You
+              </div>
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[0.92] mb-6" style={{ fontFamily: "'Barlow', sans-serif" }}>
+                Professional Mobile Car Wash & Detailing<br /> at Your Doorstep
+              </h1>
+              <p className="text-blue-100/80 text-lg leading-relaxed mb-8 max-w-xl">
+                Eco-friendly products, expert technicians, and 100% satisfaction guaranteed. Book service fast, get a free quote, and enjoy a showroom finish without leaving your location.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Btn onClick={() => setPage("booking")} className="px-8 py-4 text-base">Book Service</Btn>
+                <button onClick={() => setPage("services")} className="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white px-8 py-4 text-base font-semibold text-slate-950 hover:bg-slate-100 transition duration-200">
+                  Get Free Quote
+                </button>
+              </div>
+              <div className="mt-8 inline-flex items-center gap-4 rounded-full bg-white/10 px-5 py-3 text-sm text-white shadow-sm shadow-slate-950/20">
+                <span className="rounded-full bg-slate-950/50 px-3 py-1">⭐ 4.8</span>
+                <span>2300+ Reviews</span>
+              </div>
+              <div className="mt-12 grid gap-4 sm:grid-cols-3">
+                {[
+                  { label: "Mobile Car Wash", detail: "Exterior & interior cleaning at your location." },
+                  { label: "Car Detailing", detail: "Premium detailing for a showroom finish." },
+                  { label: "Battery Change", detail: "On-site battery replacement service." },
+                ].map(item => (
+                  <div key={item.label} className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-sm shadow-slate-950/10">
+                    <div className="text-xs uppercase tracking-[0.28em] text-blue-200/80 mb-3">{item.label}</div>
+                    <div className="text-sm text-blue-100">{item.detail}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <h1
-              className="text-5xl sm:text-6xl lg:text-[5.5rem] font-black text-white leading-[0.95] mb-6"
-              style={{ fontFamily: "'Barlow', sans-serif" }}
-            >
-              Premium Car<br />
-              Care <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600">Delivered</span>
-            </h1>
-            <p className="text-blue-100/75 text-lg leading-relaxed mb-8 max-w-xl">
-              Professional car wash, full detailing, and battery replacement — sent to wherever you are. No queues, no driving. Just a spotless car.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Btn onClick={() => setPage("booking")} className="px-8 py-4 text-base">
-                Book a Service <ArrowRight className="w-4 h-4" />
-              </Btn>
-              <button onClick={() => setPage("services")} className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-8 py-4 rounded-xl text-base transition-all border border-white/15">
-                View Pricing
-              </button>
-            </div>
-            <div className="flex items-center gap-10 mt-12 pt-12 border-t border-white/10">
-              {[["500+", "Happy Customers"], ["4.9★", "Average Rating"], ["≤30 min", "Avg. Response"]].map(([v, l]) => (
-                <div key={l}>
-                  <div className="text-white font-black text-2xl" style={{ fontFamily: "'Barlow', sans-serif" }}>{v}</div>
-                  <div className="text-blue-300/60 text-xs mt-0.5">{l}</div>
+
+            <div className="relative rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl shadow-slate-950/30 bg-slate-900">
+              <img
+                src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=900&h=900&fit=crop&auto=format"
+                alt="Car wash service"
+                className="h-[620px] w-full object-cover"
+              />
+              <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-slate-950/95 via-slate-950/30 to-transparent">
+                <div className="rounded-3xl border border-white/10 bg-white/10 p-4 backdrop-blur-sm text-white">
+                  <div className="flex items-center justify-between gap-4">
+                    <div>
+                      <div className="text-xs uppercase tracking-[0.25em] text-slate-300">Trusted by</div>
+                      <div className="text-lg font-black text-white">AutoShine Customers</div>
+                    </div>
+                    <div className="rounded-full bg-sky-500/10 px-4 py-2 text-xs uppercase tracking-[0.25em] text-sky-200">Fast booking</div>
+                  </div>
+                  <div className="mt-4 grid grid-cols-3 gap-3 text-center text-sm text-slate-200">
+                    <div>
+                      <div className="font-black text-white">500+</div>
+                      <div className="text-slate-400">Happy customers</div>
+                    </div>
+                    <div>
+                      <div className="font-black text-white">4.9★</div>
+                      <div className="text-slate-400">Average rating</div>
+                    </div>
+                    <div>
+                      <div className="font-black text-white">30 min</div>
+                      <div className="text-slate-400">Avg response</div>
+                    </div>
+                  </div>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </div>
@@ -228,7 +265,7 @@ function HomePage({ setPage }: { setPage: (p: Page) => void }) {
             ].map(svc => (
               <div key={svc.title} className="group bg-card rounded-2xl overflow-hidden border border-border hover:shadow-2xl hover:shadow-primary/8 transition-all duration-300 hover:-translate-y-1">
                 <div className="h-48 bg-slate-100 overflow-hidden">
-                  <img src={`https://images.unsplash.com/photo-${svc.img}?w=600&h=300&fit=crop&auto=format`} alt={svc.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <img src={`https://images.unsplash.com/${svc.img}?w=600&h=300&fit=crop&auto=format`} alt={svc.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                 </div>
                 <div className="p-6">
                   <div className={`inline-flex p-2.5 rounded-xl ${svc.color} mb-4`}>{svc.icon}</div>
@@ -1480,7 +1517,7 @@ export default function App() {
   const [page, setPage] = useState<Page>("home");
 
   return (
-    <div className="min-h-screen bg-background" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-slate-50 to-white text-foreground overflow-x-hidden" style={{ fontFamily: "'Inter', sans-serif" }}>
       <Navbar page={page} setPage={setPage} />
       {page === "home" && <HomePage setPage={setPage} />}
       {page === "services" && <ServicesPage setPage={setPage} />}
