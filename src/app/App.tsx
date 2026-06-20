@@ -450,7 +450,7 @@ function HomePage({ setPage }: { setPage: (p: Page) => void }) {
           </div>
           <div className="border-t border-white/8 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-blue-200/30 text-xs">
             <span>© 2026 AutoShine Mobile. All rights reserved.</span>
-            <span>Made with care for car owners everywhere</span>
+            <span>Developed by Adsinfi Digital Marketing</span>
           </div>
         </div>
       </footer>
